@@ -179,6 +179,16 @@ int tb() {
                 TH1F *Clong_hist = new TH1F("clong","clong",100,0,1.6);
                 TH1F *Ctot_hist = new TH1F("ctot","ctot",100,0,0.2);
                 TH2F *Clong_Ctot_h = new TH2F("Clong_vs_Ctot", "C_{long} vs C_{tot}", 300,0,0.2, 300,0,1.6);
+
+                const int nHistograms = 48;
+                TH1F *C01_h[nHistograms];
+                TH1F *C02_h[nHistograms];
+                TH1F *E03_h[nHistograms];
+                for (int i = 0; i < nHistograms; ++i) {
+                    C01_h[i] = new TH1F(Form("C01_h_%d", i), Form("EfitC01 %d", i), 100, 0, syncData[rn].energy*1000*1.5);
+                    C02_h[i] = new TH1F(Form("C02_h_%d", i), Form("EfitC02 %d", i), 100, 0, syncData[rn].energy*1000*1.5);
+                    E03_h[i] = new TH1F(Form("E03_h_%d", i), Form("EfitE03 %d", i), 100, 0, syncData[rn].energy*1000*1.5);
+                }
                 
 // EVENT LOOP !!!
 
@@ -195,7 +205,12 @@ int tb() {
                         C02[j].push_back(EfitC02[j]);
                         C01[j].push_back(EfitC01[j]);
                         E03[j].push_back(EfitE03[j]);
+                        
+                        C01_h[j]->Fill(EfitC01[j]);
+                        C02_h[j]->Fill(EfitC02[j]);
+                        E03_h[j]->Fill(EfitE03[j]);
                     }
+
                     S1.push_back(S1cou);
                     S2.push_back(S2cou);
                     Ch1.push_back(Cher1);
@@ -258,9 +273,17 @@ int tb() {
 
                     std::cout << "in Eta = 0.05" << std::endl;    
 
+                    // A and BC layer
+
                     C01_Clong = {1, 4, 5, 8, 2, 3, 6, 7};
                     C02_Clong = {1, 4, 5, 8, 2, 3, 6, 7};
                     E03_Clong = {4, 5, 6, 7, 8, 9, 2, 3};
+
+                    // A layer only
+
+                    // C01_Clong = {1, 4, 5, 8};
+                    // C02_Clong = {1, 4, 5, 8};
+                    // E03_Clong = {4, 5, 6, 7};
 
                     C01_Ctot = {1, 4, 5, 8, 2, 3, 6, 7, 0, 13, 14};
                     C02_Ctot = {1, 4, 5, 8, 2, 3, 6, 7, 0, 13, 14};
@@ -271,10 +294,18 @@ int tb() {
                 if (tiv == 15) {
 
                     std::cout << "in Eta = 0.15" << std::endl;
+                    
+                    // A and BC layer
 
                     C01_Clong = {5, 8, 1, 4, 9, 10, 2, 3, 6, 7, 11, 12};
                     C02_Clong = {5, 8, 1, 4, 9, 10, 2, 3, 6, 7, 11, 12};
                     E03_Clong = {6, 7, 10, 11, 4, 5, 8, 9, 14, 15, 2, 3};
+
+                    // A layer only
+                    
+                    // C01_Clong = {5, 8, 1, 4, 9, 10};
+                    // C02_Clong = {5, 8, 1, 4, 9, 10};
+                    // E03_Clong = {6, 7, 10, 11, 4, 5};
 
                     C01_Ctot = {5, 8, 1, 4, 9, 10, 2, 3, 6, 7, 11, 12, 0, 13, 14};
                     C02_Ctot = {5, 8, 1, 4, 9, 10, 2, 3, 6, 7, 11, 12, 0, 13, 14};
@@ -286,9 +317,17 @@ int tb() {
 
                     std::cout << "in Eta = 0.25" << std::endl;
 
+                    // A and BC layer
+
                     C01_Clong = {9, 10, 5, 8, 15, 18, 6, 7, 11, 12, 16, 17};
                     C02_Clong = {9, 10, 5, 8, 15, 18, 6, 7, 11, 12, 16, 17};
                     E03_Clong = {10, 11, 6, 7, 20, 21, 8, 9, 14, 15, 22, 23};
+
+                    // A layer only
+
+                    // C01_Clong = {9, 10, 5, 8, 15, 18};
+                    // C02_Clong = {9, 10, 5, 8, 15, 18};
+                    // E03_Clong = {10, 11, 6, 7, 20, 21};
 
                     C01_Ctot = {9, 10, 5, 8, 15, 18, 6, 7, 11, 12, 16, 17, 13, 14, 25, 26};
                     C02_Ctot = {9, 10, 5, 8, 15, 18, 6, 7, 11, 12, 16, 17, 13, 14, 25, 26};
@@ -299,9 +338,17 @@ int tb() {
 
                     std::cout << "in Eta = 0.35" << std::endl;
 
+                    // A and BC layer
+
                     C01_Clong = {9, 10, 15, 18, 19, 20, 11, 12, 16, 17, 21, 22};
                     C02_Clong = {9, 10, 15, 18, 19, 20, 11, 12, 16, 17, 21, 22};
                     E03_Clong = {10, 11, 6, 7, 20, 21, 8, 9, 14, 15, 22, 23};
+
+                    // A layer only
+
+                    // C01_Clong = {9, 10, 15, 18, 19, 20};
+                    // C02_Clong = {9, 10, 15, 18, 19, 20};
+                    // E03_Clong = {10, 11, 6, 7, 20, 21};
 
                     C01_Ctot = {9, 10, 15, 18, 19, 20, 11, 12, 16, 17, 21, 22, 13, 14, 25, 26};
                     C02_Ctot = {9, 10, 15, 18, 19, 20, 11, 12, 16, 17, 21, 22, 13, 14, 25, 26};
@@ -312,9 +359,17 @@ int tb() {
 
                     std::cout << "in Eta = 0.45" << std::endl;
 
+                    // A and BC layer
+
                     C01_Clong = {15, 18, 19, 20, 23, 24, 16, 17, 21, 22, 28, 29};
                     C02_Clong = {15, 18, 19, 20, 23, 24, 16, 17, 21, 22, 28, 29};
                     E03_Clong = {10, 11, 24, 25, 20, 21, 14, 15, 22, 23, 26, 27};
+
+                    // A layer only
+
+                    // C01_Clong = {15, 18, 19, 20, 23, 24};
+                    // C02_Clong = {15, 18, 19, 20, 23, 24};
+                    // E03_Clong = {10, 11, 24, 25, 20, 21};
 
                     C01_Ctot = {15, 18, 19, 20, 23, 24, 16, 17, 21, 22, 28, 29, 13, 14, 25, 26};
                     C02_Ctot = {15, 18, 19, 20, 23, 24, 16, 17, 21, 22, 28, 29, 13, 14, 25, 26};
@@ -325,9 +380,17 @@ int tb() {
 
                     std::cout << "in Eta = 0.55" << std::endl;
 
+                    // A and BC layer
+
                     C01_Clong = {19, 20, 23, 24, 27, 30, 21, 22, 28, 29, 34, 35};
                     C02_Clong = {19, 20, 23, 24, 27, 30, 21, 22, 28, 29, 34, 35};
                     E03_Clong = {32, 33, 24, 25, 20, 21, 22, 23, 26, 27, 34, 35};
+
+                    // A layer only
+
+                    // C01_Clong = {19, 20, 23, 24, 27, 30};
+                    // C02_Clong = {19, 20, 23, 24, 27, 30};
+                    // E03_Clong = {32, 33, 24, 25, 20, 21};
 
                     C01_Ctot = {19, 20, 23, 24, 27, 30, 21, 22, 28, 29, 34, 35, 25, 26, 39, 42};
                     C02_Ctot = {19, 20, 23, 24, 27, 30, 21, 22, 28, 29, 34, 35, 25, 26, 39, 42};
@@ -338,9 +401,17 @@ int tb() {
 
                     std::cout << "in Eta = 0.65" << std::endl;
 
+                    // A and BC layer
+
                     C01_Clong = {33, 36, 23, 24, 27, 30, 28, 29, 34, 35, 40, 41};
                     C02_Clong = {33, 36, 23, 24, 27, 30, 28, 29, 34, 35, 40, 41};
                     E03_Clong = {32, 33, 24, 25, 20, 21, 22, 23, 26, 27, 34, 35};
+
+                    // A layer only
+
+                    // C01_Clong = {33, 36, 23, 24, 27, 30};
+                    // C02_Clong = {33, 36, 23, 24, 27, 30};
+                    // E03_Clong = {32, 33, 24, 25, 20, 21};
 
                     C01_Ctot = {33, 36, 23, 24, 27, 30, 28, 29, 34, 35, 40, 41, 25, 26, 39, 42};
                     C02_Ctot = {33, 36, 23, 24, 27, 30, 28, 29, 34, 35, 40, 41, 25, 26, 39, 42};
@@ -359,9 +430,6 @@ int tb() {
                     int index2 = C02_Clong[i];
                     int index3 = E03_Clong[i];
 
-                    std::cout << "C02[" << index2 << "].size() = " << C02[index2].size() << std::endl;
-                    std::cout << "C01[" << index1 << "].size() = " << C01[index1].size() << std::endl;
-                    std::cout << "E03[" << index3 << "].size() = " << E03[index3].size() << std::endl;
                     
                     for (int j=0; j < C02[index2].size(); ++j) {
                         C_long[j] += C01[index1][j] + C02[index2][j] + E03[index3][j];
@@ -643,13 +711,35 @@ int tb() {
                 latex.DrawLatex(0.73, 0.77, text3.Data());
                 latex.DrawLatex(0.73, 0.74, text4.Data());
                 canvas[15]->SaveAs(Form("clong_ctot/Clong_Ctot_h_%s.png", get_run(fileName).c_str()));
-                     
 
+                                
+            // Energy for each cell
 
-                // Close the current file
-                for (int i = 0; i < 16; i++) {
-                    delete canvas[i];
-                }
+                // const int nCanvases = 48;
+                // TCanvas *c[nCanvases] ;
+                // for (int i = 0; i < nCanvases; ++i) {
+                //     c[i] = new TCanvas(Form("c%d", i), Form("Canvas %d", i));
+                // }
+
+                // for (int i = 0; i < nCanvases; ++i) {
+                //     c[i]->cd();
+                //     C02_h[i]->GetXaxis()->SetTitle("E[MeV]");
+                //     C02_h[i]->GetYaxis()->SetTitle("counts");
+                //     C02_h[i]->SetStats(0);
+                //     C02_h[i]->Draw();
+                //     c[i]->Update();
+                //     latex.DrawLatex(0.73, 0.83, text1.Data()); // Position and text
+                //     latex.DrawLatex(0.73, 0.80, text2.Data());
+                //     latex.DrawLatex(0.73, 0.77, text3.Data());
+                //     latex.DrawLatex(0.73, 0.74, text4.Data());
+                //     c[i]->SaveAs(Form("C02/C02_h_%d_%s.png", i, get_run(fileName).c_str()));
+                //     delete c[i];
+                // }
+
+                // // Close the current file
+                // for (int i = 0; i < 16; i++) {
+                //     delete canvas[i];
+                // }
 
 
                 energy_tot_h->Delete();
